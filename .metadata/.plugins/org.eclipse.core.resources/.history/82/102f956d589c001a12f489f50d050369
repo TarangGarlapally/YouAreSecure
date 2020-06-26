@@ -1,0 +1,11 @@
+import java.util.Properties;
+
+public class testmail
+{
+	public static void main(String[] args) {
+		Properties props = new Properties();
+		mail.smtp.auth
+		mail.smtp.startls.enable
+		
+	}
+}

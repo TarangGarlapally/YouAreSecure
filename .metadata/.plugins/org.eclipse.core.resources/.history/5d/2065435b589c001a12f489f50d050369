@@ -1,0 +1,6 @@
+public class testmail
+{
+	public static void main(String[] args) {
+		Properties props = new Properties();
+	}
+}

@@ -1,0 +1,407 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="java.sql.SQLException"%>
+<%@page import="java.io.IOException"%>
+<%@page import="java.util.concurrent.TimeUnit"%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Home</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <style type="text/css">
+  	.proinfo{
+  		font-family: "Comic Sans MS", cursive, sans-serif;
+  		text-align: left;
+  		font-size: 20px;
+  		margin-top: 5%;
+
+  	}
+  	.proinfo2{
+  		font-family: "Comic Sans MS", cursive, sans-serif;
+  		text-align: left;
+  		font-size: 20px;
+  		margin-top: 2%;
+
+  	}
+  	.proinfo4{
+  		font-family: "Comic Sans MS", cursive, sans-serif;
+  		text-align: left;
+  		font-size: 20px;
+  		margin-top: 0.2%;
+
+  	}
+  	.con0{
+  		background-color:#f3f3f3;
+  	}
+  	.sosbtn{
+  		margin-top: 40%;
+  		float: bottom;
+  		margin-bottom: 5%;
+  	}
+  	.mybtn{
+  		transition: 0.3s ease;
+
+  	}
+  	.mybtn:hover{
+  		background-color: white;
+  		color: black;
+  	}
+  		
+  	.modal-header .close {
+        display:none;
+    }
+  </style>
+  
+  <script type="text/javascript">
+  function change(){
+		
+	}
+  </script>
+  
+</head>
+<body>
+<%          HttpSession mysession=request.getSession(); 
+if(mysession.getAttribute("aadhar")==null){
+	response.sendRedirect("login.jsp");
+}
+else{
+
+%>
+
+
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Enter the location to be added</h4>
+            </div>
+            <div class="modal-body">
+		
+                <form method="get" action="AddL">
+                    
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="location" id="myPopupInput" placeholder="Your Current Location">
+                    </div>
+                    <input type="submit" name="submit" class="btn btn-primary" id="modal-closed"  value="Submit">
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Trigger the modal with a button -->
+<button type="button" id="open-modal" class="btn btn-info btn-lg" style="visibility:hidden;">Open Modal</button>
+
+<!-- Modal -->
+<div id="myModal2" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <img class="modal-title" src="warning-145066_960_720.png" width="50%" align="center">
+        <h4 class="modal-title" style="float: right; margin-top: 20%;margin-right:20%;color:red; ">Area Unsafe!</h4>
+      </div>
+      <div class="modal-body">
+        <p class="proinfo" style="margin-top: 2px;" align="center">This location is not in your safe list</p>
+      </div>
+      <div class="modal-footer">
+      	<button type="button" class="btn btn-danger mybtn" style="float: left" onclick="window.location.href='sos.jsp'">Send an SOS</button>
+        <button type="button" class="btn btn-success mybtn" data-dismiss="modal">I am Safe</button>
+        
+        
+      </div>
+    </div>
+    
+
+  </div>
+</div>
+
+
+
+
+
+
+<!-- Trigger the modal with a button -->
+<button type="button" id="open-modal8" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal8" style="visibility: hidden;">Open Modal</button>
+
+<!-- Modal -->
+<div id="myModal8" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <img class="modal-title" src="warning-145066_960_720.png" width="50%" align="center">
+        <h4 class="modal-title" style="float: right; margin-top: 20%;margin-right:20%;color:red; ">Area Unsafe!</h4>
+      </div>
+      <div class="modal-body">
+        <p class="proinfo" style="margin-top: 2px;" align="center">This location is not in your safe list</p>
+        <div align="center">
+          <p class="proinfo" style="margin-top: 2px;font-size: 15px" align="center">You've been in this location for too many times, would you like to add it?</p>
+           <button type="button" class="btn btn-danger mybtn" style="float: center" onclick="window.location.href='AddL'">Add</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger mybtn" style="float: left" onclick="window.location.href='sos.jsp'">Send an SOS</button>
+        <button type="button" class="btn btn-success mybtn" data-dismiss="modal">I am Safe</button>
+
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="container" >
+	<br>
+	<div align="center">
+	<form method="post" class="form-inline">
+                    
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="loc" placeholder="Your Current Location">
+                    </div>
+                    <input type="submit" class="btn btn-primary"  name="submit2" value="submit">
+    </form>
+	</div>
+</div>
+
+<%
+if(request.getParameter("submit2")!=null){
+String loc=request.getParameter("loc");
+mysession.setAttribute("location", loc);
+
+}
+%>
+<div class="container" align="center">
+	<p class="col-md-6 proinfo2 loc">You are at Location</p>
+	<div class="col-md-6" style="margin-top: 2%;">
+		<form action="logout">
+		<input type="submit" class="btn btn-default" style="float: right;" value="Logout">
+	</form>
+	</div>
+</div>
+<div class="container">
+
+
+	<p class="proinfo4 safe" style="color:green;">Safe zone</p>
+
+</div>
+<div class="container con0">
+	<div class="col-md-6">
+		<img src="female-3743458.svg" style="height: 60vh">
+	</div>
+	<div class="col-md-6 proinfo">
+		<p >${name}</p>
+		<p >@${aadhar}</p>
+		<button class="btn btn-danger sosbtn mybtn" onclick="window.location.href='sos.jsp'">SOS Local Police</button>
+	</div>
+</div>
+
+<div class="container">
+	<div class="col-md-4">
+	<br>
+	<blockquote>Locations Marked safe by you<br><br>    	
+	<button class="btn btn-primary mybtn" onclick="window.location.href='mylocations.jsp'">Registered Locations</button>
+	</blockquote>
+    </div>
+
+    <div class="col-md-4" align="center">
+    	<h4 style="margin-top: 33px;">Add a new location to safe list</h4>
+
+		<button type="button" id="open-modal2" class="btn btn-info mybtn" data-toggle="modal" data-target="#myModal" style="margin-top: 20px;"
+>Add Location</button>
+
+    </div>
+
+    <div class="col-md-4">
+	<br>
+    <blockquote class="blockquote-reverse">Locations visited but not marked safe<br><br>
+		
+		<button class="btn btn-primary mybtn" onclick="window.location.href='unregloc.jsp'">UnRegistered locations</button>
+	</blockquote>
+    </div>
+</div>
+
+<%
+if(mysession.getAttribute("location")!=null){
+Connection conn = null;
+try {
+	String aadhar = (String)mysession.getAttribute("aadhar");
+
+	Class.forName("com.mysql.jdbc.Driver");
+    String url = "jdbc:mysql://localhost:3306/javadbms?verifyServerCertificate=false&useSSL=true";
+    String user = "root";
+    String dbpassword = "wiseone";
+	
+    
+    conn = DriverManager.getConnection(url, user, dbpassword);
+    String sql="select reglocation from locations where aadhar='"+aadhar+"';";
+    Statement st = conn.createStatement(); 
+    ResultSet m = st.executeQuery(sql); 
+    int f=0;
+    while(m.next()) {
+    	String s=(String)mysession.getAttribute("location");
+    	if(s.equalsIgnoreCase(m.getString(1))){
+    		
+    	f=2;
+    	break;
+    	}
+    	
+    	
+    	}
+    if(f==0){
+    	
+    	
+    	String s=(String)mysession.getAttribute("location");
+        String sql2="select location,nofvisits from unreglocations where aadhar='"+aadhar+"' and location='"+s+"';";
+        Statement st2 = conn.createStatement(); 
+        ResultSet m2 = st.executeQuery(sql2); 
+        
+        if (!m2.isBeforeFirst() ) {    
+        	//insert
+        	
+            	String sql4="insert into unreglocations values('"+mysession.getAttribute("aadhar")+"','"+s+"',1)";
+                Statement st4 = conn.createStatement(); 
+                int m4=st4.executeUpdate(sql4); 
+            	
+        	
+        } else {
+        	//update
+        	
+        		String sql4="update unreglocations set nofvisits=nofvisits+1 where aadhar='"+aadhar+"' and location='"+s+"';";
+        	    Statement st4 = conn.createStatement(); 
+        	    st4.executeUpdate(sql4); 
+        	    
+        	    
+        	    while(m2.next()){
+        	    	mysession.setAttribute("nofvisits", m2.getString(2));
+        	    }
+        }
+        
+    	
+    	
+    	
+    	%>
+    	<script>
+    	<%
+    	if(mysession.getAttribute("nofvisits")==null){
+    		%> 
+    	
+    		document.getElementById('open-modal').click();
+    		$(".safe").replaceWith("<p class='proinfo4 safe' style='color:red;'>UnSafe zone</p>");
+    		<%
+    	}
+    	else{
+    	if(Integer.parseInt((String)mysession.getAttribute("nofvisits"))>=20){
+    		%>
+    		
+    		document.getElementById('open-modal8').click();
+    		<%
+    		
+    	}
+    	else{
+    		%>
+    		
+    		  $("#myModal").modal("show");
+    	<%
+    	}
+    	%>
+    	$(".safe").replaceWith("<p class='proinfo4 safe' style='color:red;'>UnSafe zone</p>");
+    	
+    	<%
+    	}
+    	%>
+        </script>
+    <%
+    
+    
+    }
+    
+    	
+    	
+    
+    
+
+} catch(SQLException e) {
+   System.out.println(e.getMessage());
+} catch (ClassNotFoundException e) {
+	// TODO Auto-generated catch block
+	e.printStackTrace();
+}
+
+}
+%>
+
+
+<script>
+
+
+
+
+    
+    	var x= '<%= mysession.getAttribute("location") %>'
+    	if(x!='null')
+        	$(".loc").replaceWith("<p class='col-md-6 proinfo2 loc'>You are at "+x+"</p>");
+    	else
+    		$(".loc").replaceWith("<p class='col-md-6 proinfo2 loc'>You are at Location"+"</p>");
+    	
+    	
+     
+    
+	
+
+$(document).ready(function(){
+	  $("#open-modal").click(function(){
+	    $("#myModal2").modal("show");
+	  });
+	  $("#myModal2").on('shown.bs.modal', function(){
+	    alert('The modal is fully shown.');
+	  });
+	});
+           function func() {
+        	   var tmp;
+               tmp = setTimeout("waitfunc()", 200000000);
+           }
+           function waitfunc(){
+               alert("Dude");
+        	
+        }
+</script>
+
+
+<%
+}
+%>
+
+
+</body>
+</html>                            

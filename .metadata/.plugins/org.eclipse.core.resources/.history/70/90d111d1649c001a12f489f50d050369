@@ -1,0 +1,84 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="java.sql.SQLException"%>
+<%@page import="java.io.IOException"%>
+
+
+<%@page import="java.util.Properties"%>
+<%@page import="javax.mail.Authenticator"%>
+<%@page import="javax.mail.Message"%>
+<%@page import="javax.mail.MessagingException"%>
+<%@page import="javax.mail.PasswordAuthentication"%>
+<%@page import="javax.mail.Session"%>
+<%@page import="javax.mail.Transport"%>
+<%@page import="javax.mail.internet.AddressException"%>
+<%@page import="javax.mail.internet.InternetAddress"%>
+<%@page import="javax.mail.internet.MimeMessage"%>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>YouAreSafe</title>
+	  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+</head>
+<body>
+<%          HttpSession mysession=request.getSession(); 
+if(mysession.getAttribute("aadhar")==null){
+	response.sendRedirect("login.jsp");
+}
+
+
+if(mysession.getAttribute("location")!=null){
+Connection conn = null;
+try {
+	
+
+	Class.forName("com.mysql.jdbc.Driver");
+    String url = "jdbc:mysql://localhost:3306/javadbms";
+    String user = "root";
+    String dbpassword = "wiseone";
+	
+    
+    conn = DriverManager.getConnection(url, user, dbpassword);
+    String sql="insert into emergency values('"+mysession.getAttribute("aadhar")+"','"+mysession.getAttribute("location")+"','n');";
+    Statement st = conn.createStatement(); 
+    st.executeUpdate(sql); 
+    
+
+} catch(SQLException e) {
+   System.out.println(e.getMessage());
+} catch (ClassNotFoundException e) {
+	// TODO Auto-generated catch block
+	e.printStackTrace();
+}
+}
+%>
+	<div class="container">
+        <div align="center" style="margin-top: 80px;font-family: 'Anton', sans-serif; font-size:40px;color: red;"><img src="alarm-gif.gif">
+        <p class="sending">ALARMING POLICE...</p>
+        </div>
+        <br>
+        <br>
+        <br>
+	</div>
+	<div align="center">
+		<button class="btn btn-default btn-sm" onclick="window.location.href='home.jsp'">Cancel</button>
+	</div>
+
+	
+
+</body>
+</html>

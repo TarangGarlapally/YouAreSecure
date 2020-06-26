@@ -1,0 +1,12 @@
+import java.util.Properties;
+
+public class testmail
+{
+	public static void main(String[] args) {
+		Properties props = new Properties();
+		props.put("mail.smtp.auth","true");
+		props.put("mail.smtp.startls.enable","true");
+		props.put("mail.smtp.host","smtp.gmail.com");
+		props.put("mail.smtp.port","587");
+	}
+}
